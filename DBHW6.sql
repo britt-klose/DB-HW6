@@ -155,10 +155,10 @@ delimiter $$
 create procedure calculate_avg_time(in query_text TEXT)
 begin 
 	declare i INT DEFAULT 1;
-    declare start_time DATETIME(6);
+	declare start_time DATETIME(6);
 	declare end_time DATETIME(6);
-    declare execution_time_ms bigint;
-    declare sum_time bigint default 0;
+    	declare execution_time_ms bigint;
+   	declare sum_time bigint default 0;
 	declare avg_time double;
 	declare query_var text;
    
@@ -167,21 +167,21 @@ begin
 		set start_time=NOW(6);
 		
         set query_var=query_text;
-		prepare stmt from @query_var;
-		execute stmt;
-		deallocate prepare stmt;
+	prepare stmt from @query_var;
+	execute stmt;
+	deallocate prepare stmt;
 		
-		set end_time=NOW(6);
+	set end_time=NOW(6);
         set execution_time_ms=TIMESTAMPDIFF(MICROSECOND, start_time, end_time);
         set sum_time=sum_time + execution_time_ms;
-		set i = i + 1;
+	set i = i + 1;
 		
        end while;
-       set avg_time=sum_time/10;
+       set avg_time=sum_time/10.0;
         
-		SELECT 
-            sum_time,
-			avg_time;
+	SELECT 
+        	sum_time,
+		avg_time;
     
 end$$
 
